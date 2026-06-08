@@ -1,5 +1,6 @@
 import json
 import os
+import time
 from flask import Flask, render_template, request, redirect, url_for
 
 app = Flask(__name__)
@@ -8,11 +9,13 @@ DATA_FILE = "budget_data.json"
 
 def load_budget_data():
     if not os.path.exists(DATA_FILE):
+        # Create a default empty array if file doesn't exist
         return []
     with open(DATA_FILE, "r") as file:
         try:
             return json.load(file)
         except json.JSONDecodeError:
+            # Safe recovery if the JSON file structure gets corrupted
             return []
 
 def save_budget_data(data):
@@ -28,8 +31,6 @@ def index():
 def add_item():
     items = load_budget_data()
     
-    # Generate a unique simple ID based on system timestamp
-    import time
     unique_id = f"item_{int(time.time())}"
     
     new_item = {
@@ -47,7 +48,6 @@ def add_item():
 @app.route("/delete_item/<item_id>", methods=["POST"])
 def delete_item(item_id):
     items = load_budget_data()
-    # Filter out target element matching ID frame
     updated_items = [item for item in items if item["id"] != item_id]
     save_budget_data(updated_items)
     return redirect(url_for("index"))
