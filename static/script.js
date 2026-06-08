@@ -1,8 +1,6 @@
-// LocalStorage Memory Initialization
 let userActuals = JSON.parse(localStorage.getItem('wedding_actuals')) || {};
 let userStatus = JSON.parse(localStorage.getItem('wedding_status')) || {};
 
-// Initialize data values into inputs and buttons on page load
 function initData() {
     document.querySelectorAll('.input-actual').forEach(input => {
         const id = input.getAttribute('data-id');
@@ -19,17 +17,16 @@ function initData() {
     calculateTotals();
 }
 
-// Live calculation tracking system for Header Summary Dashboard
 function calculateTotals() {
     let totalEst = 0, totalAct = 0, doneCount = 0;
     
-    // 1. Sum up Estimated Budgets
-    document.querySelectorAll('.est-value').forEach(el => {
-        let val = parseFloat(el.getAttribute('data-val'));
+    // 1. Calculate Estimated Total dynamically from the input boxes
+    document.querySelectorAll('.input-estimate').forEach(input => {
+        let val = parseFloat(input.value);
         if (!isNaN(val)) totalEst += val;
     });
 
-    // 2. Sum up Actual Spendings
+    // 2. Calculate Actual Total Spendings
     const items = document.querySelectorAll('.input-actual');
     items.forEach(input => {
         const id = input.getAttribute('data-id');
@@ -38,14 +35,27 @@ function calculateTotals() {
         if (userStatus[id] === "done") doneCount++;
     });
 
-    // 3. Update UI text strings with local MYR formatting rules
     document.getElementById('total-estimate').innerText = `RM ${totalEst.toLocaleString('en-MY', {minimumFractionDigits:2, maximumFractionDigits:2})}`;
     document.getElementById('total-actual').innerText = `RM ${totalAct.toLocaleString('en-MY', {minimumFractionDigits:2, maximumFractionDigits:2})}`;
     document.getElementById('completion-stats').innerText = `${doneCount} / ${items.length}`;
 }
 
-// Event Listeners for Live Inputs & Toggles
+// Monitors live typed changes for Estimated inputs and pushes them securely to the server
 document.body.addEventListener('input', function(e) {
+    if (e.target.classList.contains('input-estimate')) {
+        const id = e.target.getAttribute('data-id');
+        const val = parseFloat(e.target.value) || 0;
+        
+        calculateTotals();
+
+        // Pushes the modified entry to python database file without needing page refresh
+        fetch('/update_est', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id: id, est: val })
+        });
+    }
+
     if (e.target.classList.contains('input-actual')) {
         const id = e.target.getAttribute('data-id');
         if(e.target.value === "") delete userActuals[id];
@@ -72,7 +82,6 @@ document.body.addEventListener('click', function(e) {
     }
 });
 
-// Fire up calculations immediately when window is loaded
 window.addEventListener('DOMContentLoaded', initData);
 
 document.getElementById('toggleFormBtn').addEventListener('click', function() {

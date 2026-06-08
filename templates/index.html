@@ -7,7 +7,6 @@
     <link rel="preconnect" href="https://googleapis.com">
     <link rel="preconnect" href="https://gstatic.com" crossorigin>
     <link href="https://googleapis.com/css2?family=Cinzel:wght@400;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <link rel="icon" type="image/png" href="./assets/images/icon.png">
     <style>
         :root {
             --bg-dark: #12141c; --bg-card: #1c1f2b; --accent-gold: #c5a880;
@@ -45,13 +44,18 @@
         .item-table th { padding: 12px 20px; font-size: 0.8rem; text-transform: uppercase; color: var(--text-muted); border-bottom: 1px solid var(--border); text-align: left; }
         .item-table td { padding: 16px 20px; border-bottom: 1px solid var(--border); vertical-align: middle; text-align: left; }
         .item-note { display: block; font-size: 0.75rem; color: var(--text-muted); margin-top: 2px; }
-        .input-actual { background-color: var(--bg-dark); border: 1px solid var(--border); color: var(--text-light); padding: 8px 12px; border-radius: 6px; width: 110px; }
-        .input-actual:focus { outline: none; border-color: var(--accent-gold); }
+        .input-actual, .input-estimate { background-color: var(--bg-dark); border: 1px solid var(--border); color: var(--text-light); padding: 8px 12px; border-radius: 6px; width: 110px; font-family: inherit; font-size: 0.9rem; }
+        .input-actual:focus, .input-estimate:focus { outline: none; border-color: var(--accent-gold); }
         .btn-status { background: none; border: 1px solid var(--border); padding: 6px 14px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; cursor: pointer; text-transform: uppercase; white-space: nowrap; }
         .btn-status.pending { color: var(--status-pending); border-color: rgba(234, 179, 8, 0.3); background-color: rgba(234, 179, 8, 0.05); }
         .btn-status.done { color: var(--status-done); border-color: rgba(34, 197, 94, 0.3); background-color: rgba(34, 197, 94, 0.1); }
         .btn-delete { background: none; border: none; color: var(--status-delete); cursor: pointer; font-size: 0.85rem; text-decoration: underline; padding: 5px; }
         .btn-delete:hover { opacity: 0.7; }
+
+        /* Strips up/down selector tools */
+        input::-webkit-outer-spin-button, input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+        input[type=number] { -moz-appearance: textfield; }
+
         @media(max-width: 600px) { h1 { font-size: 1.6rem; } body { padding: 10px; } .item-table th, .item-table td { padding: 12px 15px; } .btn-submit { align-self: auto; margin-top: 10px; } }
     </style>
 </head>
@@ -105,10 +109,9 @@
                 <button type="submit" class="btn-submit">Add Item</button>
             </form>
         </div>
-
         {% set categories = [
             ('merisik', '1. Merisik (Feb 2027)'),
-            ('nikah', '2. Nikah (End of 2027)'),
+            ('nikah', '2. Core Nikah Customs (Terengganu)'),
             ('admin', '3. Administration & Legal Fees'),
             ('aesthetics', '4. Styling & Memories')
         ] %}
@@ -121,7 +124,7 @@
                     <thead>
                         <tr>
                             <th>Item Description</th>
-                            <th>Estimated</th>
+                            <th>Estimated (RM)</th>
                             <th>Actual Spend (RM)</th>
                             <th>Status</th>
                             <th>Action</th>
@@ -131,7 +134,7 @@
                         {% for item in budget_items if item.category == cat_id %}
                         <tr>
                             <td><strong>{{ item.name }}</strong><span class="item-note">{{ item.note }}</span></td>
-                            <td class="est-value" data-val="{{ item.est }}">RM {{ "{:,.2f}".format(item.est) }}</td>
+                            <td><input type="number" step="0.01" class="input-estimate" data-id="{{ item.id }}" value="{{ '{:g}'.format(item.est) }}"></td>
                             <td><input type="number" class="input-actual" data-id="{{ item.id }}" placeholder="0.00"></td>
                             <td><button class="btn-status pending" data-id="{{ item.id }}">○ Pending</button></td>
                             <td>
