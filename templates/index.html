@@ -35,7 +35,7 @@
         .dash-card .amount { font-size: 1.6rem; font-weight: 600; }
         .dash-card .amount.gold { color: var(--accent-gold); }
 
-        /* Form styling for adding items */
+        /* Form section layout */
         .form-section { background-color: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 30px; }
         .form-section h2 { font-family: 'Cinzel', serif; color: var(--accent-gold); font-size: 1.2rem; margin-bottom: 15px; }
         .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; }
@@ -52,8 +52,8 @@
 
         .table-responsive { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
         .item-table { width: 100%; border-collapse: collapse; min-width: 650px; }
-        .item-table th { padding: 12px 20px; font-size: 0.8rem; text-transform: uppercase; color: var(--text-muted); border-bottom: 1px solid var(--border); }
-        .item-table td { padding: 16px 20px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+        .item-table th { padding: 12px 20px; font-size: 0.8rem; text-transform: uppercase; color: var(--text-muted); border-bottom: 1px solid var(--border); text-align: left; }
+        .item-table td { padding: 16px 20px; border-bottom: 1px solid var(--border); vertical-align: middle; text-align: left; }
         .item-note { display: block; font-size: 0.75rem; color: var(--text-muted); margin-top: 2px; }
 
         .input-actual { background-color: var(--bg-dark); border: 1px solid var(--border); color: var(--text-light); padding: 8px 12px; border-radius: 6px; width: 110px; }
@@ -82,6 +82,7 @@
             <p class="subtitle">Timeline Target: Merisik Feb 2027 & Nikah</p>
         </header>
 
+        <!-- Metrics Cards Display -->
         <div class="dashboard">
             <div class="dash-card">
                 <h3>Total Estimated Budget</h3>
@@ -97,7 +98,7 @@
             </div>
         </div>
 
-        <!-- Add Item Interlocking Interactive Form Box -->
+        <!-- Add Item Entry Interface Form -->
         <div class="form-section">
             <h2>+ Add New Budget Item</h2>
             <form action="/add_item" method="POST" class="form-grid">
@@ -126,6 +127,7 @@
             </form>
         </div>
 
+        <!-- Loop structures rendering the category segments safely -->
         {% set categories = [
             ('merisik', '1. Merisik (Feb 2027)'),
             ('nikah', '2. Core Nikah Customs (Terengganu)'),
@@ -164,6 +166,4 @@
                                 <button class="btn-status pending" data-id="{{ item.id }}">○ Pending</button>
                             </td>
                             <td>
-                                <!-- Safe form submission for tracking deletions -->
                                 <form action="/delete_item/{{ item.id }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this item?');" style="display:inline;">
-                                    <button type="submit" class="btn-delete">Delete</button>
