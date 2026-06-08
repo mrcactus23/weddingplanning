@@ -1,7 +1,7 @@
 [
   { "id": "m1", "category": "merisik", "name": "Merisik Ring (Cincin Belah Rotan)", "est": 450, "note": "Average estimated cost" },
-  { "id": "m2", "category": "merisik", "name": "Gifts (Buah Tangan for Bride's family)", "est": 200, "note": "Chocolates, traditions, or fruit baskets" },
-  { "id": "m3", "category": "merisik", "name": "Family Transport & Logistics", "est": 150, "note": "Fuel and tolls for family group" },
+  { "id": "m2", "category": "merisik", "name": "Gifts (Buah Tangan for Bride's family)", "est": 100, "note": "Chocolates, traditions, or fruit baskets" },
+  { "id": "m3", "category": "merisik", "name": "Family Transport & Logistics", "est": 250, "note": "Fuel and tolls for family group" },
   
   { "id": "n1", "category": "nikah", "name": "Mas Kahwin + Wang Hantaran", "est": 12500, "note": "Customary merged sum for Terengganu" },
   { "id": "n2", "category": "nikah", "name": "Groom's Ring to Bride (Cincin Nikah)", "est": 1400, "note": "Main marriage ring" },
@@ -15,8 +15,6 @@
   { "id": "a4", "category": "admin", "name": "Tok Kadi / Jurunikah Gratuity", "est": 150, "note": "Official payment structure" },
   { "id": "a5", "category": "admin", "name": "Saksi Token Matrix", "est": 100, "note": "RM50 for each of the two witnesses" },
 
-  { "id": "e1", "category": "aesthetics", "name": "Nikah Attire (Bride & Groom)", "est": 1050, "note": "Renting or purchasing ready-made set" },
-  { "id": "e2", "category": "aesthetics", "name": "Makeup Artist (MUA)", "est": 450, "note": "Solemnization day visual design package" },
-  { "id": "e3", "category": "aesthetics", "name": "Mini Pelamin", "est": 700, "note": "Small photogenic backdrop for home/mosque" },
+  { "id": "e1", "category": "aesthetics", "name": "Nikah Attire (Bride & Groom)", "est": 700, "note": "Renting or purchasing ready-made set" },
   { "id": "e4", "category": "aesthetics", "name": "Photographer Coverage", "est": 1300, "note": "Purely tracking the solemnization ceremony" }
 ]
