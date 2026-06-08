@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Wedding Budget Planner</title>
+    <link rel="preconnect" href="https://googleapis.com">
+    <link rel="preconnect" href="https://gstatic.com" crossorigin>
+    <link href="https://googleapis.com/css2?family=Cinzel:wght@400;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-dark: #12141c;
+            --bg-card: #1c1f2b;
+            --accent-gold: #c5a880;
+            --text-light: #f3f4f6;
+            --text-muted: #9ca3af;
+            --status-done: #22c55e;
+            --status-pending: #eab308;
+            --border: #2e3446;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background-color: var(--bg-dark); color: var(--text-light); font-family: 'Inter', sans-serif; padding: 20px; }
+        .container { max-width: 1000px; margin: 0 auto; padding-bottom: 60px; }
+        header { text-align: center; margin: 40px 0; border-bottom: 1px solid var(--border); padding-bottom: 30px; }
+        h1 { font-family: 'Cinzel', serif; color: var(--accent-gold); font-size: 2.5rem; letter-spacing: 2px; margin-bottom: 8px; }
+        .subtitle { font-size: 1rem; color: var(--text-muted); text-transform: uppercase; }
+        
+        .dashboard { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-bottom: 40px; }
+        .dash-card { background-color: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 20px; text-align: center; }
+        .dash-card h3 { font-size: 0.85rem; text-transform: uppercase; color: var(--text-muted); margin-bottom: 10px; }
+        .dash-card .amount { font-size: 1.8rem; font-weight: 600; }
+        .dash-card .amount.gold { color: var(--accent-gold); }
+
+        .category-section { background-color: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; margin-bottom: 30px; overflow: hidden; }
+        .category-header { background-color: rgba(197, 168, 128, 0.05); padding: 15px 20px; border-bottom: 1px solid var(--border); }
+        .category-title { font-family: 'Cinzel', serif; color: var(--accent-gold); font-size: 1.2rem; }
+
+        .item-table { width: 100%; border-collapse: collapse; }
+        .item-table th { padding: 12px 20px; font-size: 0.8rem; text-transform: uppercase; color: var(--text-muted); border-bottom: 1px solid var(--border); }
+        .item-table td { padding: 16px 20px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+        .item-note { display: block; font-size: 0.75rem; color: var(--text-muted); margin-top: 2px; }
+
+        .input-actual { background-color: var(--bg-dark); border: 1px solid var(--border); color: var(--text-light); padding: 8px 12px; border-radius: 6px; width: 110px; }
+        .input-actual:focus { outline: none; border-color: var(--accent-gold); }
+
+        .btn-status { background: none; border: 1px solid var(--border); padding: 6px 14px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; cursor: pointer; text-transform: uppercase; }
+        .btn-status.pending { color: var(--status-pending); border-color: rgba(234, 179, 8, 0.3); background-color: rgba(234, 179, 8, 0.05); }
+        .btn-status.done { color: var(--status-done); border-color: rgba(34, 197, 94, 0.3); background-color: rgba(34, 197, 94, 0.1); }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>Wedding Budget Planner</h1>
+            <p class="subtitle">Timeline Target: Merisik Feb 2027 & Nikah</p>
+        </header>
+
+        <div class="dashboard">
+            <div class="dash-card">
+                <h3>Total Estimated Budget</h3>
+                <div class="amount" id="total-estimate">RM 0.00</div>
+            </div>
+            <div class="dash-card">
+                <h3>Total Actual Budget</h3>
+                <div class="amount gold" id="total-actual">RM 0.00</div>
+            </div>
+            <div class="dash-card">
+                <h3>Completed Items</h3>
+                <div class="amount" id="completion-stats">0 / 0</div>
+            </div>
+        </div>
+
+        <!-- Macro Category Macro loop generated dynamically via Python -->
+        {% set categories = [
+            ('merisik', '1. Merisik (Feb 2027)'),
+            ('nikah', '2. Core Nikah Customs (Terengganu)'),
+            ('admin', '3. Administration & Legal Fees'),
+            ('aesthetics', '4. Styling & Memories')
+        ] %}
+
+        {% for cat_id, cat_title in categories %}
+        <div class="category-section">
+            <div class="category-header">
+                <div class="category-title">{{ cat_title }}</div>
+            </div>
+            <table class="item-table">
+                <thead>
+                    <tr>
+                        <th>Item Description</th>
+                        <th>Estimated</th>
+                        <th>Actual Spend (RM)</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in budget_items if item.category == cat_id %}
+                    <tr>
+                        <td>
+                            <strong>{{ item.name }}</strong>
+                            <span class="item-note">{{ item.note }}</span>
+                        </td>
+                        <td class="est-value" data-val="{{ item.est }}">RM {{ "{:,.2f}".format(item.est) }}</td>
+                        <td>
+                            <input type="number" class="input-actual" data-id="{{ item.id }}" placeholder="0.00">
+                        </td>
+                        <td>
+                            <button class="btn-status pending" data-id="{{ item.id }}">○ Pending</button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% endfor %}
+    </div>
+
+    <script>
+        // Synchronized frontend tracking script
+        let userActuals = JSON.parse(localStorage.getItem('wedding_actuals')) || {};
+        let userStatus = JSON.parse(localStorage.getItem('wedding_status')) || {};
+
+        function initData() {
+            document.querySelectorAll('.input-actual').forEach(input => {
+                const id = input.getAttribute('data-id');
+                if (userActuals[id] !== undefined) input.value = userActuals[id];
+            });
+
+            document.querySelectorAll('.btn-status').forEach(btn => {
+                const id = btn.getAttribute('data-id');
+                if (userStatus[id] === "done") {
+                    btn.className = "btn-status done";
+                    btn.innerText = "✓ Done";
+                }
+            });
+            calculateTotals();
+        }
+
+        function calculateTotals() {
+            let totalEst = 0, totalAct = 0, doneCount = 0;
+            const items = document.querySelectorAll('.input-actual');
+
+            document.querySelectorAll('.est-value').forEach(el => {
+                totalEst += parseFloat(el.getAttribute('data-val'));
+            });
+
+            items.forEach(input => {
+                const id = input.getAttribute('data-id');
+                const val = parseFloat(input.value);
+                if (!isNaN(val)) totalAct += val;
+                if (userStatus[id] === "done") doneCount++;
+            });
+
+            document.getElementById('total-estimate').innerText = `RM ${totalEst.toLocaleString('en-MY', {minimumFractionDigits:2})}`;
+            document.getElementById('total-actual').innerText = `RM ${totalAct.toLocaleString('en-MY', {minimumFractionDigits:2})}`;
+            document.getElementById('completion-stats').innerText = `${doneCount} / ${items.length}`;
+        }
+
+        document.body.addEventListener('input', function(e) {
+            if (e.target.classList.contains('input-actual')) {
+                const id = e.target.getAttribute('data-id');
+                if(e.target.value === "") delete userActuals[id];
+                else userActuals[id] = parseFloat(e.target.value);
+                localStorage.setItem('wedding_actuals', JSON.stringify(userActuals));
+                calculateTotals();
+            }
+        });
+
+        document.body.addEventListener('click', function(e) {
+            if (e.target.classList.contains('btn-status')) {
+                const id = e.target.getAttribute('data-id');
+                if (userStatus[id] === "done") {
+                    userStatus[id] = "pending";
+                    e.target.className = "btn-status pending";
+                    e.target.innerText = "○ Pending";
+                } else {
+                    userStatus[id] = "done";
+                    e.target.className = "btn-status done";
+                    e.target.innerText = "✓ Done";
+                }
+                localStorage.setItem('wedding_status', JSON.stringify(userStatus));
+                calculateTotals();
+            }
+        });
+
+        initData();
+    </script>
+</body>
+</html>
