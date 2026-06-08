@@ -21,23 +21,30 @@
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { background-color: var(--bg-dark); color: var(--text-light); font-family: 'Inter', sans-serif; padding: 20px; }
+        body { background-color: var(--bg-dark); color: var(--text-light); font-family: 'Inter', sans-serif; padding: 15px; }
         .container { max-width: 1000px; margin: 0 auto; padding-bottom: 60px; }
-        header { text-align: center; margin: 40px 0; border-bottom: 1px solid var(--border); padding-bottom: 30px; }
-        h1 { font-family: 'Cinzel', serif; color: var(--accent-gold); font-size: 2.5rem; letter-spacing: 2px; margin-bottom: 8px; }
-        .subtitle { font-size: 1rem; color: var(--text-muted); text-transform: uppercase; }
+        header { text-align: center; margin: 30px 0; border-bottom: 1px solid var(--border); padding-bottom: 20px; }
+        h1 { font-family: 'Cinzel', serif; color: var(--accent-gold); font-size: 2.2rem; letter-spacing: 2px; margin-bottom: 8px; }
+        .subtitle { font-size: 0.9rem; color: var(--text-muted); text-transform: uppercase; }
         
-        .dashboard { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-bottom: 40px; }
+        .dashboard { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; margin-bottom: 30px; }
         .dash-card { background-color: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 20px; text-align: center; }
-        .dash-card h3 { font-size: 0.85rem; text-transform: uppercase; color: var(--text-muted); margin-bottom: 10px; }
-        .dash-card .amount { font-size: 1.8rem; font-weight: 600; }
+        .dash-card h3 { font-size: 0.8rem; text-transform: uppercase; color: var(--text-muted); margin-bottom: 10px; }
+        .dash-card .amount { font-size: 1.6rem; font-weight: 600; }
         .dash-card .amount.gold { color: var(--accent-gold); }
 
         .category-section { background-color: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; margin-bottom: 30px; overflow: hidden; }
         .category-header { background-color: rgba(197, 168, 128, 0.05); padding: 15px 20px; border-bottom: 1px solid var(--border); }
-        .category-title { font-family: 'Cinzel', serif; color: var(--accent-gold); font-size: 1.2rem; }
+        .category-title { font-family: 'Cinzel', serif; color: var(--accent-gold); font-size: 1.1rem; }
 
-        .item-table { width: 100%; border-collapse: collapse; }
+        /* FIX: Wrap table to allow horizontal swipe on mobile screens */
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch; /* Smooth scroll for iOS */
+        }
+
+        .item-table { width: 100%; border-collapse: collapse; min-width: 600px; } /* Ensures room for data without squishing */
         .item-table th { padding: 12px 20px; font-size: 0.8rem; text-transform: uppercase; color: var(--text-muted); border-bottom: 1px solid var(--border); }
         .item-table td { padding: 16px 20px; border-bottom: 1px solid var(--border); vertical-align: middle; }
         .item-note { display: block; font-size: 0.75rem; color: var(--text-muted); margin-top: 2px; }
@@ -45,9 +52,16 @@
         .input-actual { background-color: var(--bg-dark); border: 1px solid var(--border); color: var(--text-light); padding: 8px 12px; border-radius: 6px; width: 110px; }
         .input-actual:focus { outline: none; border-color: var(--accent-gold); }
 
-        .btn-status { background: none; border: 1px solid var(--border); padding: 6px 14px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; cursor: pointer; text-transform: uppercase; }
+        .btn-status { background: none; border: 1px solid var(--border); padding: 6px 14px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; cursor: pointer; text-transform: uppercase; white-space: nowrap; }
         .btn-status.pending { color: var(--status-pending); border-color: rgba(234, 179, 8, 0.3); background-color: rgba(234, 179, 8, 0.05); }
         .btn-status.done { color: var(--status-done); border-color: rgba(34, 197, 94, 0.3); background-color: rgba(34, 197, 94, 0.1); }
+
+        /* Better mobile styling adjustments */
+        @media(max-width: 600px) {
+            h1 { font-size: 1.6rem; }
+            body { padding: 10px; }
+            .item-table th, .item-table td { padding: 12px 15px; }
+        }
     </style>
 </head>
 <body>
@@ -73,7 +87,6 @@
             </div>
         </div>
 
-        <!-- Macro Category Macro loop generated dynamically via Python -->
         {% set categories = [
             ('merisik', '1. Merisik (Feb 2027)'),
             ('nikah', '2. Core Nikah Customs (Terengganu)'),
@@ -86,39 +99,41 @@
             <div class="category-header">
                 <div class="category-title">{{ cat_title }}</div>
             </div>
-            <table class="item-table">
-                <thead>
-                    <tr>
-                        <th>Item Description</th>
-                        <th>Estimated</th>
-                        <th>Actual Spend (RM)</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for item in budget_items if item.category == cat_id %}
-                    <tr>
-                        <td>
-                            <strong>{{ item.name }}</strong>
-                            <span class="item-note">{{ item.note }}</span>
-                        </td>
-                        <td class="est-value" data-val="{{ item.est }}">RM {{ "{:,.2f}".format(item.est) }}</td>
-                        <td>
-                            <input type="number" class="input-actual" data-id="{{ item.id }}" placeholder="0.00">
-                        </td>
-                        <td>
-                            <button class="btn-status pending" data-id="{{ item.id }}">○ Pending</button>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+            <!-- Added table-responsive wrap container -->
+            <div class="table-responsive">
+                <table class="item-table">
+                    <thead>
+                        <tr>
+                            <th>Item Description</th>
+                            <th>Estimated</th>
+                            <th>Actual Spend (RM)</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in budget_items if item.category == cat_id %}
+                        <tr>
+                            <td>
+                                <strong>{{ item.name }}</strong>
+                                <span class="item-note">{{ item.note }}</span>
+                            </td>
+                            <td class="est-value" data-val="{{ item.est }}">RM {{ "{:,.2f}".format(item.est) }}</td>
+                            <td>
+                                <input type="number" class="input-actual" data-id="{{ item.id }}" placeholder="0.00">
+                            </td>
+                            <td>
+                                <button class="btn-status pending" data-id="{{ item.id }}">○ Pending</button>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </div>
         {% endfor %}
     </div>
 
     <script>
-        // Synchronized frontend tracking script
         let userActuals = JSON.parse(localStorage.getItem('wedding_actuals')) || {};
         let userStatus = JSON.parse(localStorage.getItem('wedding_status')) || {};
 
