@@ -74,3 +74,14 @@ document.body.addEventListener('click', function(e) {
 
 // Fire up calculations immediately when window is loaded
 window.addEventListener('DOMContentLoaded', initData);
+
+document.getElementById('toggleFormBtn').addEventListener('click', function() {
+    const formBox = document.getElementById('addFormBox');
+    if (formBox.style.display === 'block') {
+        formBox.style.display = 'none';
+        this.innerText = '+ Add New Item';
+    } else {
+        formBox.style.display = 'block';
+        this.innerText = '× Close Form';
+    }
+});

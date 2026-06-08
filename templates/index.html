@@ -19,12 +19,15 @@
         header { text-align: center; margin: 30px 0; border-bottom: 1px solid var(--border); padding-bottom: 20px; }
         h1 { font-family: 'Cinzel', serif; color: var(--accent-gold); font-size: 2.2rem; letter-spacing: 2px; margin-bottom: 8px; }
         .subtitle { font-size: 0.9rem; color: var(--text-muted); text-transform: uppercase; }
-        .dashboard { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; margin-bottom: 30px; }
+        .dashboard { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; margin-bottom: 20px; }
         .dash-card { background-color: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 20px; text-align: center; }
         .dash-card h3 { font-size: 0.8rem; text-transform: uppercase; color: var(--text-muted); margin-bottom: 10px; }
         .dash-card .amount { font-size: 1.6rem; font-weight: 600; }
         .dash-card .amount.gold { color: var(--accent-gold); }
-        .form-section { background-color: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 30px; }
+        .toggle-form-container { text-align: center; margin-bottom: 25px; }
+        .btn-toggle-form { background: none; border: 1px solid var(--accent-gold); color: var(--accent-gold); padding: 10px 24px; border-radius: 30px; font-family: 'Cinzel', serif; font-size: 0.9rem; font-weight: 600; cursor: pointer; letter-spacing: 1px; transition: all 0.2s ease; }
+        .btn-toggle-form:hover { background-color: rgba(197, 168, 128, 0.1); }
+        .form-section { background-color: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 30px; display: none; }
         .form-section h2 { font-family: 'Cinzel', serif; color: var(--accent-gold); font-size: 1.2rem; margin-bottom: 15px; }
         .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; }
         .form-control { display: flex; flex-direction: column; }
@@ -57,7 +60,6 @@
             <h1>Wedding Budget Planner</h1>
             <p class="subtitle">Timeline Target: Merisik Feb 2027 & Nikah</p>
         </header>
-
         <div class="dashboard">
             <div class="dash-card">
                 <h3>Total Estimated Budget</h3>
@@ -72,8 +74,10 @@
                 <div class="amount" id="completion-stats">0 / 0</div>
             </div>
         </div>
-
-        <div class="form-section">
+        <div class="toggle-form-container">
+            <button class="btn-toggle-form" id="toggleFormBtn">+ Add New Item</button>
+        </div>
+        <div class="form-section" id="addFormBox">
             <h2>+ Add New Budget Item</h2>
             <form action="/add_item" method="POST" class="form-grid">
                 <div class="form-control">
@@ -103,7 +107,7 @@
 
         {% set categories = [
             ('merisik', '1. Merisik (Feb 2027)'),
-            ('nikah', '2. Core Nikah Customs (Terengganu)'),
+            ('nikah', '2. Nikah (End of 2027)'),
             ('admin', '3. Administration & Legal Fees'),
             ('aesthetics', '4. Styling & Memories')
         ] %}
