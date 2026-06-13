@@ -42,56 +42,56 @@
     "note": "Bawah tanggungan keluarga"
   },
   {
-    "id": "a1",
+    "id": "d1",
     "category": "document",
     "name": "Kursus Perkahwinan",
     "est": 140,
     "note": "Yuran pendaftaran kursus"
   },
   {
-    "id": "a2",
+    "id": "d2",
     "category": "document",
     "name": "HIV test & Medical",
     "est": 20,
     "note": "Valid 6 bulan"
   },
   {
-    "id": "a3",
+    "id": "d3",
     "category": "document",
     "name": "Borang nikah",
     "est": 70,
     "note": "Pejabat Agama"
   },
   {
-    "id": "a4",
+    "id": "d4",
     "category": "document",
     "name": "Tok Kadi",
     "est": 150,
     "note": "Bayaran tok kadi"
   },
   {
-    "id": "a5",
+    "id": "d5",
     "category": "document",
     "name": "Saksi",
     "est": 100,
     "note": "RM50 setiap saksi"
   },
   {
-    "id": "e1",
+    "id": "p1",
     "category": "preparation",
     "name": "Baju nikah",
     "est": 700,
     "note": "Sewa baju nikah"
   },
   {
-    "id": "e2",
+    "id": "p2",
     "category": "preparation",
     "name": "Makeup",
     "est": 300,
     "note": "Simple makeup"
   },
   {
-    "id": "e4",
+    "id": "p3",
     "category": "preparation",
     "name": "Photography",
     "est": 1000,
