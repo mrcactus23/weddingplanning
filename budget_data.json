@@ -2,99 +2,99 @@
   {
     "id": "m1",
     "category": "merisik",
-    "name": "Merisik Ring (Cincin Belah Rotan)",
-    "est": 450.0,
-    "note": "Average estimated cost"
+    "name": "Cincin Merisik",
+    "est": 450,
+    "note": "Cincin belah rotan"
   },
   {
     "id": "m3",
     "category": "merisik",
     "name": "Family Transport & Logistics",
     "est": 250,
-    "note": "Fuel and tolls for family group"
+    "note": "Minyak dan tol"
   },
   {
     "id": "n1",
     "category": "nikah",
     "name": "Mas Kahwin + Wang Hantaran",
-    "est": 12500,
-    "note": "Customary merged sum for Terengganu"
+    "est": 10000,
+    "note": "Range 8k-10k"
   },
   {
     "id": "n2",
     "category": "nikah",
-    "name": "Groom's Ring to Bride (Cincin Nikah)",
-    "est": 1400,
-    "note": "Main marriage ring"
+    "name": "Cincin Nikah",
+    "est": 1500,
+    "note": "Cincin nikah utk both"
   },
   {
     "id": "n3",
     "category": "nikah",
-    "name": "Bride's Gift to Groom (Ring/Watch)",
+    "name": "Balas dulang hantaran",
     "est": 850,
-    "note": "Exchange gift item"
+    "note": "No fixed amount. Seikhlas hati"
   },
   {
     "id": "n4",
     "category": "nikah",
-    "name": "Dulang Hantaran Items",
-    "est": 1000,
-    "note": "Gifts for trays (Perfume, shoes, bag, etc.)"
+    "name": "Majlis (Tempat&Makan)",
+    "est": 0,
+    "note": "Bawah tanggungan keluarga"
   },
   {
     "id": "a1",
-    "category": "admin",
+    "category": "pentadbiran",
     "name": "Kursus Perkahwinan",
     "est": 140,
-    "note": "Official marriage course registration"
+    "note": "Yuran pendaftaran kursus"
   },
   {
     "id": "a2",
-    "category": "admin",
-    "name": "HIV Screening & Medical",
+    "category": "pentadbiran",
+    "name": "HIV test & Medical",
     "est": 20,
-    "note": "Government health clinic requirement"
+    "note": "Valid 6 bulan"
   },
   {
     "id": "a3",
-    "category": "admin",
-    "name": "JHEAUT Registration Fees",
+    "category": "pentadbiran",
+    "name": "Borang nikah",
     "est": 70,
-    "note": "Official documentation setup fee"
+    "note": "Pejabat Agama"
   },
   {
     "id": "a4",
-    "category": "admin",
-    "name": "Tok Kadi / Jurunikah Gratuity",
+    "category": "pentadbiran",
+    "name": "Tok Kadi",
     "est": 150,
-    "note": "Official payment structure"
+    "note": "Bayaran tok kadi"
   },
   {
     "id": "a5",
-    "category": "admin",
-    "name": "Saksi Token Matrix",
+    "category": "pentadbiran",
+    "name": "Saksi",
     "est": 100,
-    "note": "RM50 for each of the two witnesses"
+    "note": "RM50 setiap saksi"
   },
   {
     "id": "e1",
-    "category": "aesthetics",
-    "name": "Nikah Attire (Bride & Groom)",
+    "category": "estetika",
+    "name": "Baju nikah",
     "est": 700,
-    "note": "Renting set baju nikah"
+    "note": "Sewa baju nikah"
   },
   {
     "id": "e2",
-    "category": "aesthetics",
-    "name": "Makeup Artist (MUA)",
+    "category": "estetika",
+    "name": "Makeup",
     "est": 300,
-    "note": "Solemnization day visual design package"
+    "note": "Simple makeup"
   },
   {
     "id": "e4",
-    "category": "aesthetics",
-    "name": "Photographer Coverage",
+    "category": "estetika",
+    "name": "Photography",
     "est": 1000,
-    "note": "Purely tracking the solemnization ceremony"
+    "note": "Gambar majlis nikah"
   }
 ]
